@@ -32,4 +32,7 @@ typedef NS_ENUM(NSInteger, OTMXAttributeOptions) {
 +(BOOL)removeAttributeAtPath:(NSString *)path name:(NSString *)name options:(OTMXAttributeOptions)options error:(NSError *__autoreleasing*)error;
 +(BOOL)removeAttributeAtPath:(NSString *)path name:(NSString *)name options:(NSError *__autoreleasing*)error;
 
++(BOOL)attributeExistsAtPath:(NSString *)path name:(NSString *)name options:(OTMXAttributeOptions)options;
++(BOOL)attributeExistsAtPath:(NSString *)path name:(NSString *)name;
+
 @end
