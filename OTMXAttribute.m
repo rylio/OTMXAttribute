@@ -169,4 +169,16 @@ NSError* generateError(int errnum) {
 	return [self removeAttributeAtPath:path name:name options:OTMXAttributeDefault error:error];
 }
 
++(BOOL)attributeExistsAtPath:(NSString *)path name:(NSString *)name options:(OTMXAttributeOptions)options {
+	
+	size_t result = getxattr(path.fileSystemRepresentation, name.UTF8String, NULL, 0, 0, options);
+	
+	return result > 0;
+}
+
++(BOOL)attributeExistsAtPath:(NSString *)path name:(NSString *)name {
+	
+	return [self attributeExistsAtPath:path name:name options:OTMXAttributeDefault];
+}
+
 @end
