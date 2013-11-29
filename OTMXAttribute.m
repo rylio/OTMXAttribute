@@ -46,10 +46,14 @@ NSError* generateError(int errnum) {
 	}
 	
 	
-	int result = setxattr(path.fileSystemRepresentation, name.UTF8String, valueBytes, valueLength, position, options);
+	int result = setxattr(path.fileSystemRepresentation, name.UTF8String, valueBytes, valueLength, (u_int32_t)position, options);
 	
 	if (result == -1) {
-		*error = generateError(errno);
+		
+		if (error) {
+			
+			*error = generateError(errno);
+		}
 	}
 	
 	return result == 0;
@@ -68,21 +72,27 @@ NSError* generateError(int errnum) {
 	const char *fp = path.fileSystemRepresentation;
 	const char *fn = name.UTF8String;
 	
-	size_t size = getxattr(fp, fn, NULL, 0, position, options);
+	ssize_t size = getxattr(fp, fn, NULL, 0, (u_int32_t)position, options);
 	
 	if (size == -1) {
 		
-		*error = generateError(errno);
+		if (error) {
+		
+			*error = generateError(errno);
+		}
 		return nil;
 	}
 	
 	void *value = malloc(size);
 	
-	size = getxattr(fp, fn, value, size, position, options);
+	size = getxattr(fp, fn, value, size, (u_int32_t)position, options);
 	
 	if (size == -1) {
 		
-		*error = generateError(errno);
+		if (error) {
+			
+			*error = generateError(errno);
+		}
 		free(value);
 		return nil;
 	}
@@ -110,11 +120,13 @@ NSError* generateError(int errnum) {
 	
 	const char *fp = path.fileSystemRepresentation;
 	
-	size_t size = listxattr(fp, NULL, 0, options);
+	ssize_t size = listxattr(fp, NULL, 0, options);
 	
 	if (size == -1) {
-		
-		*error = generateError(errno);
+		if (error) {
+			
+			*error = generateError(errno);
+		}
 		return nil;
 		
 	} else if(size == 0) {
@@ -128,7 +140,10 @@ NSError* generateError(int errnum) {
 	
 	if (size == -1) {
 		
-		*error = generateError(errno);
+		if (error) {
+			
+			*error = generateError(errno);
+		}
 		free(names);
 		return nil;
 	}
@@ -158,7 +173,9 @@ NSError* generateError(int errnum) {
 	
 	if (result == -1) {
 		
-		*error = generateError(errno);
+		if (error) {
+			*error = generateError(errno);
+		}
 	}
 	
 	return result == 0;
@@ -171,9 +188,9 @@ NSError* generateError(int errnum) {
 
 +(BOOL)attributeExistsAtPath:(NSString *)path name:(NSString *)name options:(OTMXAttributeOptions)options {
 	
-	size_t result = getxattr(path.fileSystemRepresentation, name.UTF8String, NULL, 0, 0, options);
+	ssize_t result = getxattr(path.fileSystemRepresentation, name.UTF8String, NULL, 0, 0, options);
 	
-	return result > 0;
+	return result >= 0;
 }
 
 +(BOOL)attributeExistsAtPath:(NSString *)path name:(NSString *)name {
