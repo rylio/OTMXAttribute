@@ -2,7 +2,7 @@
 //  OTMXAttribute.m
 //  OTMCache Example
 //
-//  Created by Ryan on 11/27/13.
+//  Created by Otium on 11/27/13.
 //  Copyright (c) 2013 Otium. All rights reserved.
 //
 
