@@ -111,7 +111,9 @@ NSError* generateError(int errnum) {
 
 +(NSString *)stringAttributeAtPath:(NSString *)path name:(NSString *)name error:(NSError *__autoreleasing *)error {
 	
-	return [[NSString alloc]initWithData:[self attributeAtPath:path name:name error:error] encoding:NSUTF8StringEncoding];
+	NSData *data = [self attributeAtPath:path name:name error:error];
+	
+	return data ? [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding] : nil;
 }
 
 +(NSArray *)attributeNamesAtPath:(NSString *)path options:(OTMXAttributeOptions)options error:(NSError *__autoreleasing *)error{
