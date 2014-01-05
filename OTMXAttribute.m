@@ -183,7 +183,7 @@ NSError* generateError(int errnum) {
 	return result == 0;
 }
 
-+(BOOL)removeAttributeAtPath:(NSString *)path name:(NSString *)name options:(NSError *__autoreleasing *)error {
++(BOOL)removeAttributeAtPath:(NSString *)path name:(NSString *)name error:(NSError *__autoreleasing *)error {
 	
 	return [self removeAttributeAtPath:path name:name options:OTMXAttributeDefault error:error];
 }
